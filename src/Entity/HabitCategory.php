@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\LifecycleTrait;
 use App\Repository\HabitCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: HabitCategoryRepository::class)]
 class HabitCategory
 {
+    use LifecycleTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,6 +30,7 @@ class HabitCategory
     public function __construct()
     {
         $this->habits = new ArrayCollection();
+        $this->lifeCycleTraitInit();
     }
 
     public function getId(): ?int

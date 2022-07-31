@@ -10,17 +10,14 @@ use Doctrine\ORM\Mapping\PostPersist;
 use Doctrine\ORM\Mapping\PostUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[HasLifecycleCallbacks]
 trait LifecycleTrait
 {
     #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['lifecycleData', 'simpleProject', "listProject"])]
     private ?DateTime $createdDate;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['lifecycleData', 'simpleProject', "listProject"])]
     private ?DateTime $updatedDate;
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\LifecycleTrait;
 use App\Repository\HabitRecordRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: HabitRecordRepository::class)]
 class HabitRecord
 {
+    use LifecycleTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,6 +23,11 @@ class HabitRecord
     #[ORM\ManyToOne(inversedBy: 'habitRecords')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Habit $habit = null;
+
+    public function __construct()
+    {
+        $this->lifeCycleTraitInit();
+    }
 
     public function getId(): ?int
     {

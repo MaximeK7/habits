@@ -6,9 +6,11 @@ use App\Entity\Traits\LifecycleTrait;
 use App\Repository\HabitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HabitRepository::class)]
+#[ApiResource]
 class Habit
 {
     use LifecycleTrait;

@@ -1,4 +1,6 @@
 api_platform:
+    defaults:
+        iri: "Habits"
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:

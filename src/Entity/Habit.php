@@ -14,7 +14,7 @@ use function strtolower;
 
 #[ORM\Entity(repositoryClass: HabitRepository::class)]
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
+    attributes: ["security" => "is_granted('ROLE_USER')"],
 )]
 class Habit
 {

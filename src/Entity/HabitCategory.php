@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HabitCategoryRepository::class)]
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
+    attributes: ["security" => "is_granted('ROLE_USER')"],
 )]
 class HabitCategory
 {

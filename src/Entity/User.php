@@ -24,6 +24,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 45)]
     private string $email;
 
+    #[ORM\Column(type: 'json')]
+    private $roles = [];
+
     public function __construct($username)
     {
         $this->username = $username;
@@ -70,11 +73,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
     }
 
-    public function getRoles(): array
-    {
-        return ['ROLE_USER'];
-    }
-
     public function eraseCredentials()
     {
     }
@@ -84,4 +82,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->getUsername();
     }
 
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
 }

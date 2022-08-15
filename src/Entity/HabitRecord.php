@@ -2,12 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Traits\LifecycleTrait;
 use App\Repository\HabitRecordRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HabitRecordRepository::class)]
+#[ApiResource(
+    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
+)]
 class HabitRecord
 {
     use LifecycleTrait;
@@ -18,6 +23,9 @@ class HabitRecord
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Type("\DateTimeInterface")]
+    /** Date when the habit was completed. There should not be multiple records for the same day */
     private ?\DateTimeInterface $dateCompleted = null;
 
     #[ORM\ManyToOne(inversedBy: 'habitRecords')]

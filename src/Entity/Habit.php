@@ -8,9 +8,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use function strtolower;
 
 #[ORM\Entity(repositoryClass: HabitRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    attributes: ["security" => "is_granted('ROLE_ADMIN')"],
+)]
 class Habit
 {
     use LifecycleTrait;
@@ -21,15 +26,21 @@ class Habit
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    /** Name of the habit */
     private ?string $name = null;
 
     #[ORM\Column(length: 6)]
+    #[Assert\Regex('/^[a-fA-F0-9]{6}$/')]
+    /** Color used to display the habit */
     private ?string $color = null;
 
     #[ORM\ManyToOne(inversedBy: 'habits')]
+    /** Habit category */
     private ?HabitCategory $category = null;
 
     #[ORM\OneToMany(mappedBy: 'habit', targetEntity: HabitRecord::class, orphanRemoval: true)]
+    /** Habit records */
     private Collection $habitRecords;
 
     public function __construct()
@@ -62,7 +73,8 @@ class Habit
 
     public function setColor(string $color): self
     {
-        $this->color = $color;
+        // Only lowercase Hex codes
+        $this->color = strtolower($color);
 
         return $this;
     }
